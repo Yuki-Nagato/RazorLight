@@ -2,6 +2,7 @@
 using System.Dynamic;
 using System.IO;
 using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using RazorLight.Caching;
@@ -31,7 +32,7 @@ namespace RazorLight
 			ITemplateFactoryProvider factoryProvider,
 			ICachingProvider cache) : this(options.Value, compiler, factoryProvider, cache)
 		{
-			
+
 
 		}
 
@@ -59,12 +60,13 @@ namespace RazorLight
 				}
 			}
 
-			if(templatePage == null)
+			if (templatePage == null)
 			{
 				CompiledTemplateDescriptor templateDescriptor = await Compiler.CompileAsync(key);
 				Func<ITemplatePage> templateFactory = FactoryProvider.CreateFactory(templateDescriptor);
 
-				if(IsCachingEnabled) {
+				if (IsCachingEnabled)
+				{
 					Cache.CacheTemplate(
 					key,
 					templateFactory,
@@ -112,7 +114,7 @@ namespace RazorLight
 
 			using (var scope = new MemoryPoolViewBufferScope())
 			{
-				var renderer = new TemplateRenderer(this, HtmlEncoder.Default, scope);
+				var renderer = new TemplateRenderer(this, HtmlEncoder.Create(UnicodeRanges.All), scope);
 				await renderer.RenderAsync(templatePage).ConfigureAwait(false);
 			}
 		}

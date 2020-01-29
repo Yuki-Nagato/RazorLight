@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using Moq;
 using RazorLight.Internal.Buffering;
@@ -30,7 +31,7 @@ namespace RazorLight.Tests
 			engineMock.SetupGet(e => e.Options).Returns(options);
 
 			//Act
-			var templateRenderer = new TemplateRenderer(engineMock.Object, HtmlEncoder.Default, new MemoryPoolViewBufferScope());
+			var templateRenderer = new TemplateRenderer(engineMock.Object, HtmlEncoder.Create(UnicodeRanges.All), new MemoryPoolViewBufferScope());
 			await templateRenderer.RenderAsync(page);
 
 			//Assert

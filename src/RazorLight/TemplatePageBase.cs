@@ -13,6 +13,7 @@ using RazorLight.TagHelpers;
 using System.Buffers;
 using RazorLight.Internal.Buffering;
 using RazorLight.Text;
+using System.Text.Unicode;
 
 namespace RazorLight
 {
@@ -69,7 +70,7 @@ namespace RazorLight
 		/// Gets the <see cref="System.Text.Encodings.Web.HtmlEncoder"/> to use when this template />
 		/// handles non-<see cref="IHtmlContent"/> C# expressions.
 		/// </summary>
-		public HtmlEncoder HtmlEncoder { get; set; } = HtmlEncoder.Default;
+		public HtmlEncoder HtmlEncoder { get; set; } = HtmlEncoder.Create(UnicodeRanges.All);
 
 		/// <inheritdoc />
 		public string Key { get; set; }

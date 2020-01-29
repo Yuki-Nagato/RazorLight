@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
+using System.Text.Unicode;
 
 namespace RazorLight.Internal.Buffering
 {
@@ -48,7 +49,7 @@ namespace RazorLight.Internal.Buffering
 				var valueAsContent = Value as IHtmlContent;
 				if (valueAsContent != null)
 				{
-					valueAsContent.WriteTo(writer, HtmlEncoder.Default);
+					valueAsContent.WriteTo(writer, HtmlEncoder.Create(UnicodeRanges.All));
 					return writer.ToString();
 				}
 
